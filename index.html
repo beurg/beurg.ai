@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BE/URG - AI Marketing & Technology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 15, 0.8) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.8) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><polygon points="600,100 750,400 800,600 700,700 500,700 400,600 450,400" fill="%23000000" opacity="0.3"/><polygon points="450,400 600,100 750,400 650,500 550,500" fill="%23111111" opacity="0.4"/><polygon points="100,600 300,300 500,700 200,700" fill="%23000000" opacity="0.2"/><polygon points="700,700 900,300 1100,600 1000,700" fill="%23000000" opacity="0.2"/></svg>') center bottom/cover no-repeat;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .bg-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .matterhorn {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 70%;
+        }
+
+        .mountain-silhouette {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Main Matterhorn peak */
+        .peak-main {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 200px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 400px solid rgba(0, 0, 0, 0.6);
+            filter: blur(1px);
+        }
+
+        /* Secondary peaks */
+        .peak-left {
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 120px solid transparent;
+            border-bottom: 280px solid rgba(0, 0, 0, 0.4);
+            filter: blur(1px);
+        }
+
+        .peak-right {
+            position: absolute;
+            bottom: 0;
+            right: 25%;
+            width: 0;
+            height: 0;
+            border-left: 120px solid transparent;
+            border-right: 140px solid transparent;
+            border-bottom: 320px solid rgba(0, 0, 0, 0.4);
+            filter: blur(1px);
+        }
+
+        /* Atmospheric glow */
+        .mountain-glow {
+            position: absolute;
+            bottom: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 200px;
+            background: radial-gradient(ellipse at center, rgba(64, 224, 255, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+            50% { opacity: 0.6; transform: translateX(-50%) scale(1.1); }
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #40e0ff, #7c3aed, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1) saturate(1); }
+            to { filter: brightness(1.2) saturate(1.3); }
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #a1a1aa;
+            margin-bottom: 3rem;
+            letter-spacing: 0.05em;
+        }
+
+        .emphasis {
+            color: #40e0ff;
+            font-weight: 500;
+        }
+
+        .coming-soon {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(90deg, #ffffff, #d1d5db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .email-capture {
+            margin-top: 3rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-input {
+            flex: 1;
+            min-width: 280px;
+            padding: 1rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .email-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: #40e0ff;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(64, 224, 255, 0.2);
+        }
+
+        .submit-btn {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #40e0ff, #7c3aed);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(64, 224, 255, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .success-message {
+            color: #22c55e;
+            margin-top: 1rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .success-message.show {
+            opacity: 1;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.9rem;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .coming-soon {
+                font-size: 2rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .email-form {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .email-input {
+                min-width: 100%;
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-elements">
+        <div class="matterhorn">
+            <div class="mountain-silhouette">
+                <div class="peak-left"></div>
+                <div class="peak-main"></div>
+                <div class="peak-right"></div>
+                <div class="mountain-glow"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo">BE/URG</div>
+        
+        <div class="tagline">
+            AI <span class="emphasis">Marketing</span> & <span class="emphasis">Technology</span>
+        </div>
+        
+        <div class="coming-soon">Coming Soon</div>
+        
+        <p style="font-size: 1.1rem; color: #d1d5db; margin-bottom: 2rem; line-height: 1.6;">
+            Revolutionary AI-powered marketing solutions and cutting-edge technology consulting.<br>
+            <span class="pulse">Be ready for what's beyond urgent.</span>
+        </p>
+
+        <div class="email-capture">
+            <form class="email-form" onsubmit="handleSubmit(event)">
+                <input 
+                    type="email" 
+                    class="email-input" 
+                    placeholder="Enter your email for early access"
+                    required
+                    id="emailInput"
+                />
+                <button type="submit" class="submit-btn">Get Notified</button>
+            </form>
+            <div class="success-message" id="successMessage">
+                Thanks! We'll notify you when we launch.
+            </div>
+        </div>
+
+        <div class="contact-info">
+            <p>Questions? Reach us at <a href="mailto:info@beurg.ai" style="color: #40e0ff; text-decoration: none;">info@beurg.ai</a></p>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2025 Beyond Urgent LLC. All rights reserved.</p>
+        </div>
+    </div>
+
+    <script>
+        // Store submitted emails in memory (no localStorage in Claude.ai)
+        let submittedEmails = [];
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const emailInput = document.getElementById('emailInput');
+            const successMessage = document.getElementById('successMessage');
+            const email = emailInput.value;
+            
+            // Store email in memory
+            submittedEmails.push({
+                email: email,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Show success message
+            successMessage.classList.add('show');
+            emailInput.value = '';
+            
+            // Log for now (in real deployment, this would go to your email service)
+            console.log('Email submitted:', email);
+            console.log('All emails:', submittedEmails);
+            
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add subtle mouse movement effects
+            document.addEventListener('mousemove', function(e) {
+                const circles = document.querySelectorAll('.bg-circle');
+                circles.forEach((circle, index) => {
+                    const speed = (index + 1) * 0.02;
+                    const x = (e.clientX * speed) / 100;
+                    const y = (e.clientY * speed) / 100;
+                    circle.style.transform = `translate(${x}px, ${y}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
